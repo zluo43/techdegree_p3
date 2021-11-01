@@ -137,8 +137,8 @@ function payment_method(){
 //form validation 
 //validators
 function isValidName(name){
- 
-	return /^[a-z]+\s?([a-z]+)?$/.test(name)
+	
+	 return /^[a-z]+\s?([a-z]+)?$/.test(name)
 
 
 
@@ -183,7 +183,7 @@ function createListener(validator) {
     const text = e.target.value;
     const valid = validator(text); 
 
-	const showTip = text !== "" && !valid;
+	const showTip = text !==''&& !valid;
 	//const showTip=!valid;
 
 	const tooltip = e.target.nextElementSibling;// next element sibling is the span in this case
@@ -195,14 +195,20 @@ function createListener(validator) {
 		else{
 		
 		e.target.parentElement.className='valid'};
+
+	hint(showTip, tooltip);
 		
-		hint(showTip, tooltip);
+		
   	 };
 	//some modification based on lecture code to display conditional message
    
 	
 
 };
+
+	 
+	  
+  
 
 //setting up variables 
 const nameInput = document.getElementById("name");
@@ -213,35 +219,32 @@ const zip_input=document.getElementById('zip');
 const cvv_input=document.getElementById('cvv');
 
 //check username 
-nameInput.addEventListener("input", createListener(isValidName));
+//conditional message
+nameInput.addEventListener('input',createListener(isValidName));
+
+nameInput.addEventListener('input', e=>{
+	const name_input=e.target;
+	console.log("?" + e.target.value + "?")
+	if (name_input.value===""){
+		name_input.nextElementSibling.textContent='Name Field Cannot be Blank'
+	}else if(!isValidName(e.target.value)) {
+		name_input.nextElementSibling.textContent="Name Must be Formatted Correctly"
+	};
+	
+});
+
+
+
+
+
+
 
 //check email
 //extra credit
 
 
-emailInput.addEventListener('keyup',createListener(isValidEmail))
+emailInput.addEventListener('input',createListener(isValidEmail))
 
-// emailInput.addEventListener("keyup",(e)=>{
-// 		createListener(isValidEmail(e.target.value));
-// 		console.log(e.target.value)
-	
-// });
-
-
-
-/**
- * try to use jquery here to see if it solves the issue?
- * 
- */
-// $('#email').on( "keyup", function() {
-// 	if($(this).val()===''){
-// 		console.log(1)
-// 	}else{
-// 		console.log(2)
-// 	};
-// 	createListener(isValidEmail);
-
-//   });
 
 
 
@@ -266,12 +269,12 @@ form.addEventListener('submit',e=>{
 if (payment.value==='credit-card'){
 	if (!isValidName(nameInput.value)) {
 	  //console.log('Invalid name prevented submission');
-	  //e.preventDefault();
+	  e.preventDefault();
 	  nameInput.parentElement.className='not-valid';
 	  nameInput.nextElementSibling.style.display='block';
 	}else{
 		nameInput.parentElement.className='valid';
-		nameInput.nextElementSibling.style.display='none';
+	
 	};
 	if (!isValidEmail(emailInput.value)) {
 		  e.preventDefault();
@@ -279,9 +282,8 @@ if (payment.value==='credit-card'){
 		  emailInput.nextElementSibling.style.display='block';
 		}else{
 			emailInput.parentElement.className='valid';
-		  	emailInput.nextElementSibling.style.display='none';
-			emailInput.nextElementSibling.nextElementSibling.style.display='none';
-		};
+		  	emailInput.nextElementSibling.style.display='none';}
+			
 
 	if (!isValidZipCode(zip_input.value)) {
 	  //console.log('Invalid language total prevented submission');
@@ -321,31 +323,25 @@ if (payment.value==='credit-card'){
 		cost.nextElementSibling.style.display='block';
 		cost.parentElement.classList.add('not-valid');
 	};
- }else { 
+ }else{ 
 	 //when its paypal and bitcoin, make sure its able to submit
 	if (!isValidName(nameInput.value)) {
+		e.preventDefault();
 		nameInput.parentElement.className='not-valid';
 		nameInput.nextElementSibling.style.display='block';
 	  }else{
 		  nameInput.parentElement.className='valid';
 		  nameInput.nextElementSibling.style.display='none';
 	  };
-	  if(emailInput.value===''){
-		  //console.log('here');
+	if(!isValidEmail(emailInput.value)){
 		  e.preventDefault();
-		  emailInput.nextElementSibling.style.display='none';
-		  emailInput.parentElement.className='not-valid';
-		  emailInput.nextElementSibling.nextElementSibling.style.display='block';};
-	  // }else if (!isValidEmail(emailInput.value)) {
-	  //   e.preventDefault();
-	  //   emailInput.parentElement.className='not-valid';
-	  //   emailInput.nextElementSibling.style.display='block';
-	  // }else{
-	  // 	emailInput.parentElement.className='valid';
-	  //   	emailInput.nextElementSibling.style.display='none';
-	  // 	emailInput.nextElementSibling.nextElementSibling.style.display='none';
-	  // };
-	  if (total_cost!==0){
+		  emailInput.nextElementSibling.style.display='block';
+		  emailInput.parentElement.className='not-valid';}
+		  else{
+			emailInput.parentElement.className='valid';
+			emailInput.nextElementSibling.style.display='none';
+		};
+	if (total_cost!==0){
 		cost.nextElementSibling.style.display='none';
 		cost.parentElement.classList.add('valid');
 		}else {
