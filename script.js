@@ -1,9 +1,3 @@
-//Varisble assign
-const email_hint_span=document.getElementById('email-hint');
-//conditional error message
-// email_hint_span.insertAdjacentHTML('afterend','<span id="email-conditional-hint" class="email-hint hint" style="display:none;">Email address cannot be blank</span>'
-// );
-// 
 
 
 
