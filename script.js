@@ -118,11 +118,26 @@ const payment=document.getElementById('payment');
 const credit_card=payment.options[1];
 credit_card.setAttribute('selected','selected');
 const credit_div=document.getElementById('credit-card');
+const paypal_div=document.getElementById('paypal');
+const bitcoin_div=document.getElementById('bitcoin');
+//default page no bitcoin and paypal
+paypal_div.style.display='none';
+bitcoin_div.style.display='none';
+
 function payment_method(){ 
-	if (payment.value!='credit-card') {
+	if (payment.value==='paypal') {
 	 	credit_div.style.display='none'
+		paypal_div.style.display='block'
+		bitcoin_div.style.display='none'
 	}else if(payment.value==='credit-card'){
-		credit_div.style.display='block'
+		credit_div.style.display='block';
+		bitcoin_div.style.display='none';
+		paypal_div.style.display='none';
+	}else{
+		credit_div.style.display='none';
+		bitcoin_div.style.display='block';
+		paypal_div.style.display='none';
+
 	};
 
 };
